@@ -1,98 +1,46 @@
-# Will the Customer Accept the Coupon?
-### Practical Application Assignment 5.1 — UC Berkeley ML & AI Program
+# Will a Customer Accept the Coupon?
 
----
+**UC Berkeley ML & AI Program â€” Practical Application 5.1**
 
 ## Overview
 
-This project investigates: **when a coupon is pushed to a driver, will they accept it?**
+This project explores a dataset of driving coupon offers collected via Amazon Mechanical Turk. Drivers were presented with various scenarios and asked whether they would accept a coupon for a nearby restaurant, bar, or coffee house. The goal is to identify what distinguishes customers who accepted from those who did not.
 
-Using 12,684 real survey responses (Amazon Mechanical Turk / UCI Machine Learning Repository), we apply exploratory data analysis, probability distributions, and statistical hypothesis testing to distinguish coupon acceptors from rejectors across five coupon types.
-
-📓 [View the Jupyter Notebook](prompt_II.ipynb)
-
----
-
-## The Data
-
-Each row represents one driving scenario. Features include:
-
-- **Driving context**: destination, time of day, weather, temperature, passenger type
-- **Coupon details**: type (5 categories), expiration window (2h or 1d)
-- **Demographics**: age, gender, income, marital status, education, occupation
-- **Behavioral history**: visit frequency for bars, coffee houses, restaurants
-
-**Target variable**: `Y` — 1 = accepted, 0 = rejected
-
----
-
-## Overall Results
-
-| Metric | Value |
-|--------|-------|
-| Total observations (after cleaning) | ~12,079 |
-| Overall acceptance rate | **56.8%** |
-| Highest acceptance coupon | Carry out & Take away |
-| Lowest acceptance coupon | Bar |
+**Notebook:** [coupon_analysis.ipynb](./coupon_analysis.ipynb)  
+**Dataset:** [coupons.csv](./coupons.csv)
 
 ---
 
 ## Key Findings
 
-### What drives acceptance across all coupons?
+**Overall acceptance rate: ~57%** â€” more than half of drivers accept a coupon when presented with one, but acceptance varies widely based on context.
 
-| Factor | Effect |
-|--------|--------|
-| ☀️ Sunny weather | ↑ Higher acceptance |
-| 👫 Riding with friends or partner | ↑ Higher acceptance |
-| 📅 1-day expiration | ↑ Materially higher vs. 2-hour |
-| 🕑 2PM or 6PM time slot | ↑ Peak acceptance windows |
-| 🏝️ No urgent destination | ↑ More open to detours |
-| 🌧️ Rain or snow | ↓ Lower acceptance |
-| 🧒 Kids in the car | ↓ Lowest of any passenger type |
-| 🌅 7AM offers | ↓ Lowest of any time slot |
+### Bar Coupons (41% acceptance)
+- Drivers who already visit bars frequently (3+ times/month) accepted at **77%** â€” nearly double the overall bar rate
+- Having friends in the car boosted acceptance to **56%**; having kids dropped it to **21%**
+- Younger drivers (21â€“26) were meaningfully more likely to say yes than drivers 36+
+- The combination of being a regular bar visitor + no kids = acceptance rates above 60%
 
----
-
-### Bar Coupon Deep-Dive
-
-Bar coupons have the lowest acceptance rate, but a highly targetable segment exists.
-
-**Finding 1 — Bar visit frequency is the #1 predictor:**
-Drivers who visit bars >1×/month accept bar coupons ~30 percentage points higher than non-bar-goers (p < 0.0001).
-
-**Finding 2 — Frequent bar-goers over 25:**
-This combined segment accepts at a significantly elevated rate vs. all others (p < 0.05).
-
-**Finding 3 — Same-direction routing matters:**
-Venues on the driver's current route see meaningfully higher acceptance.
-
-**Finding 4 — Family context suppresses acceptance:**
-Drivers with children and kids as passengers show the lowest bar coupon acceptance.
+### Coffee House Coupons (50% acceptance)
+- The best time window is **10AMâ€“2PM** â€” acceptance peaks during the natural coffee break hours
+- Regular coffee drinkers (1â€“3x/month+) accepted at significantly higher rates than non-visitors
+- **1-day expiration outperforms 2-hour** â€” more time flexibility means more acceptances
+- Drivers with no urgent destination were the most receptive segment
 
 ---
 
 ## Recommendations
 
-1. **Segment bar coupon recipients by visit history** — target frequent bar-goers, suppress for families
-2. **Weather-triggered delivery** — push on sunny days, switch to carry-out during rain
-3. **Default to 1-day expiration** — 2-hour windows hurt acceptance
-4. **Concentrate pushes at 2PM and 6PM** — peak acceptance windows
-5. **Integrate routing data** — prioritize venues on the driver's current route
+1. **Target existing behavior** â€” the strongest predictor across all coupon types is whether the driver already visits that venue. Coupons are most effective as reinforcement, not habit creation.
+2. **Match timing to the coupon type** â€” coffee in the morning, bars in the evening.
+3. **Avoid families for bar coupons** â€” presence of kids is a consistent negative signal.
+4. **Use 1-day expiration** over 2-hour where possible â€” it consistently outperforms.
 
 ---
 
-## Repository Contents
+## Next Steps
 
-```
-├── prompt_II.ipynb     # Full executed Jupyter notebook
-├── coupons.csv         # Dataset (UCI In-Vehicle Coupon Recommendation)
-└── README.md           # This file
-```
+- Build a classification model (Logistic Regression / Decision Tree) to predict acceptance
+- Explore interaction effects between time, passenger type, and coupon type
+- Investigate income and occupation as additional segmentation dimensions
 
-## Libraries Used
-
-`pandas` · `numpy` · `matplotlib` · `seaborn` · `scipy.stats`
-
----
-*Dataset: Wang, Rudin et al. (2017). UCI Machine Learning Repository. https://doi.org/10.24432/C5GS4P*
