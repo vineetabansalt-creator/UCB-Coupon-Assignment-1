@@ -1,12 +1,12 @@
 # Will a Customer Accept the Coupon?
 
-**UC Berkeley ML & AI Program â€” Practical Application 5.1**
+**UC Berkeley ML & AI Program Practical Application 5.1**
 
 ## Overview
 
 This project explores a dataset of driving coupon offers collected via Amazon Mechanical Turk. Drivers were presented with various scenarios and asked whether they would accept a coupon for a nearby restaurant, bar, or coffee house. The goal is to identify what distinguishes customers who accepted from those who did not.
 
-**Notebook:** [coupon_analysis.ipynb](./coupon_analysis.ipynb)  
+**Notebook:** [coupon_analysis.ipynb](./coupon_analysis_assignment5.ipynb)  
 **Dataset:** [coupons.csv](./coupons.csv)
 
 ---
